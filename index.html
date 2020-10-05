@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
+</head>
+<body>
+<script type="module">
+    Object.assign(window,
+        {
+            Graphics: PIXI.Graphics,
+            Application: PIXI.Application,
+            loader: PIXI.Loader.shared,
+            resources: PIXI.Loader.shared.resources,
+            Sprite: PIXI.Sprite,
+            TextureCache: PIXI.utils.TextureCache,
+        });
+
+    import main from './main.js';
+    main();
+</script>
+</body>
+</html>
