@@ -18,9 +18,9 @@ export const KeyboardWasdController = (() => {
     const down = keyboard("s");
 
     return {
-        left: () => left.isDown,
-        right: () => right.isDown,
-        up: () => up.isDown,
-        down: () => down.isDown,
+        left: () => left.isDown(),
+        right: () => right.isDown(),
+        up: () => up.isDown(),
+        down: () => down.isDown(),
     };
 })();

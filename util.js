@@ -13,7 +13,7 @@ export const keyboard = value => {
     let isUp = true;
 
     const onDown = e => {
-        if (e.key === key.value) {
+        if (e.key === value) {
             isDown = true;
             isUp = false;
             e.preventDefault();
@@ -22,9 +22,9 @@ export const keyboard = value => {
     window.addEventListener("keydown", onDown);
 
     const onUp = e => {
-        if (e.key === key.value) {
-            isDown = true;
-            isUp = false;
+        if (e.key === value) {
+            isDown = false;
+            isUp = true;
             e.preventDefault();
         }
     };
