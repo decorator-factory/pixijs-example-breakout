@@ -1,4 +1,5 @@
-
+import { Player } from "./actors/Player.js";
+import { KeyboardWasdController } from "./inputControllers/WasdController.js"
 
 
 export const load = loader => {
@@ -11,8 +12,15 @@ export const setup = ({app}) => {
     //@ Create the initial state of the game
     app.renderer.backgroundColor = 0x061639;
 
+    const player = Player({
+        app,
+        x: app.screen.width / 2,
+        y: app.screen.height - 64,
+        wasd: KeyboardWasdController,
+    });
+
     return {
-        actors: [],
+        actors: [player],
         frame: 0n,
         _ofTypeCache: new Map(),
     };
