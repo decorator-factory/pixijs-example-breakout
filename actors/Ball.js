@@ -33,17 +33,29 @@ export const Ball = ({x, y, app}) => {
         if (sprite.y >= app.screen.height - RADIUS)
             vy = Math.abs(vy) * (-1);
 
+        // bounce against the player
         const [player] = ofType("Player");
-        const collision = isCircleInRectangle(
-            sprite.x, sprite.y, RADIUS,
-            ...player.rect()
-        );
+        const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...player.rect());
         if (collision !== null){
             const [cx, cy] = collision;
             if (cx !== 0)
                 vx = Math.abs(vx) * cx;
             if (cy !== 0)
                 vy = Math.abs(vy) * cy;
+        }
+
+        // bounce against a block
+        for (const block of ofType("Block")){
+            const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...block.rect());
+            if (collision !== null){
+                const [cx, cy] = collision;
+                if (cx !== 0)
+                    vx = Math.abs(vx) * cx;
+                if (cy !== 0)
+                    vy = Math.abs(vy) * cy;
+
+                block.hit();
+            }
         }
     };
 

@@ -1,5 +1,6 @@
 import { Player } from "./actors/Player.js";
 import { Ball } from "./actors/Ball.js";
+import { Block } from "./actors/Block.js";
 import { KeyboardWasdController } from "./inputControllers/WasdController.js"
 
 
@@ -26,8 +27,21 @@ export const setup = ({app}) => {
         y: app.screen.height / 2,
     });
 
+    const blocks = [];
+    for (let i=0; i<7; i++)
+        for (let j=0; j<6; j++)
+            blocks.push(
+                Block({
+                    app,
+                    x: 64 + i * 64,
+                    y: 64 + j * 48,
+                    w: 56,
+                    h: 32
+                })
+            );
+
     return {
-        actors: [player, ball],
+        actors: [player, ball, ...blocks],
         frame: 0n,
         _ofTypeCache: new Map(),
     };
@@ -46,7 +60,7 @@ export const loop = ({app, delta, state}) => {
             app,
             delta,
             state,
-            destroy: (a=null) => toDestroy.add(a===null ? actor : a),
+            destroy: a => toDestroy.add(a ? a : actor),
             create: makeActor => toAdd.push(makeActor),
             ofType: type => {
                 // since actors aren't added or destroyed during the update,
