@@ -28,15 +28,13 @@ export const setup = ({app}) => {
     });
 
     const blocks = [];
-    for (let i=0; i<15; i++)
-        for (let j=0; j<6; j++)
+    for (let i=0; i<6; i++)
+        for (let j=0; j<4; j++)
             blocks.push(
                 Block({
                     app,
-                    x: 64 + i * 64,
-                    y: 64 + j * 48,
-                    w: 56,
-                    h: 32
+                    x: 160 + i*128, y: 116 + j*64,
+                    w: 100, h: 48
                 })
             );
 
