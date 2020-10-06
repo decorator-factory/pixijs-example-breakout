@@ -1,4 +1,5 @@
 import { Player } from "./actors/Player.js";
+import { Ball } from "./actors/Ball.js";
 import { KeyboardWasdController } from "./inputControllers/WasdController.js"
 
 
@@ -19,8 +20,14 @@ export const setup = ({app}) => {
         wasd: KeyboardWasdController,
     });
 
+    const ball = Ball({
+        app,
+        x: app.screen.width / 2,
+        y: app.screen.height / 2,
+    });
+
     return {
-        actors: [player],
+        actors: [player, ball],
         frame: 0n,
         _ofTypeCache: new Map(),
     };
