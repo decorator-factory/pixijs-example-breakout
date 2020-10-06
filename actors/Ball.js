@@ -1,3 +1,5 @@
+import { isCircleInRectangle } from "../collision.js";
+
 // constants
 const RADIUS = 8;
 
@@ -17,14 +19,32 @@ export const Ball = ({x, y, app}) => {
     app.stage.addChild(sprite);
 
     // update handler
-    const onStep = ({state}) => {
+    const onStep = ({ofType}) => {
         sprite.x += vx;
         sprite.y += vy;
 
-        if (sprite.x <= RADIUS || sprite.x >= app.screen.width - RADIUS)
-            vx = -vx;
-        if (sprite.y <= RADIUS || sprite.y >= app.screen.height - RADIUS)
-            vy = -vy;
+        if (sprite.x <= RADIUS)
+            vx = Math.abs(vx) * (+1);
+        if (sprite.x >= app.screen.width - RADIUS)
+            vx = Math.abs(vx) * (-1);
+
+        if (sprite.y <= RADIUS)
+            vy = Math.abs(vy) * (+1);
+        if (sprite.y >= app.screen.height - RADIUS)
+            vy = Math.abs(vy) * (-1);
+
+        const [player] = ofType("Player");
+        const collision = isCircleInRectangle(
+            sprite.x, sprite.y, RADIUS,
+            ...player.rect()
+        );
+        if (collision !== null){
+            const [cx, cy] = collision;
+            if (cx !== 0)
+                vx = Math.abs(vx) * cx;
+            if (cy !== 0)
+                vy = Math.abs(vy) * cy;
+        }
     };
 
     // destruction handler

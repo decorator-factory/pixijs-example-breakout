@@ -31,5 +31,13 @@ export const Player = ({x, y, app, wasd}) => {
     };
 
     // construct
-    return {type: "Player", onStep, onDestroy}
+    return {
+        type: "Player",
+        onStep,
+        onDestroy,
+        rect: () => [
+            sprite.x - WIDTH/2, sprite.y - HEIGHT/2,
+            sprite.x + WIDTH/2, sprite.y + HEIGHT/2
+        ],
+    }
 };
