@@ -2,7 +2,7 @@ import * as game from './game.js';
 
 export default () => {
     const app = new Application({
-        width: 512,
+        width: 1024,
         height: 768,
         antialias: true,
         transparent: false,

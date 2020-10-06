@@ -1,7 +1,7 @@
 import { isCircleInRectangle } from "../collision.js";
 
 // constants
-const RADIUS = 8;
+const RADIUS = 14;
 
 
 export const Ball = ({x, y, app}) => {
