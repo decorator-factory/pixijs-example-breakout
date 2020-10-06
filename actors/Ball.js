@@ -6,8 +6,8 @@ const RADIUS = 14;
 
 export const Ball = ({x, y, app}) => {
     // instance variables
-    let vx = 4;
-    let vy = 4;
+    let vx = 6;
+    let vy = 6;
 
     // graphics
     const sprite =

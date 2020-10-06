@@ -1,7 +1,7 @@
 // constants
-const WIDTH = 96;
-const HEIGHT = 64;
-const SPEED = 6;
+const WIDTH = 120;
+const HEIGHT = 32;
+const SPEED = 10;
 
 
 export const Player = ({x, y, app, wasd}) => {
