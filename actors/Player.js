@@ -1,10 +1,14 @@
 // constants
 const WIDTH = 120;
 const HEIGHT = 32;
-const SPEED = 10;
+const SPEED = 16;
 
 
 export const Player = ({x, y, app, wasd}) => {
+    // instance variables
+    let targetX = x;
+
+
     // graphics
     const sprite =
         new Graphics()
@@ -20,9 +24,10 @@ export const Player = ({x, y, app, wasd}) => {
     // update handler
     const onStep = ({state}) => {
         const dx = wasd.right() - wasd.left();
-        const newX = sprite.x + dx * SPEED;
+        const newX = targetX + dx * SPEED;
         if (WIDTH/2 < newX && newX+WIDTH/2 < app.screen.width)
-            sprite.x = newX;
+            targetX = newX;
+        sprite.x = (sprite.x*4 + targetX)/5;
     };
 
     // destruction handler
