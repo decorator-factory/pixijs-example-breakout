@@ -8,6 +8,7 @@ export const Ball = ({x, y, app}) => {
     // instance variables
     let vx = 8;
     let vy = 8;
+    let isHeld = false;
 
     // graphics
     const sprite =
@@ -20,41 +21,51 @@ export const Ball = ({x, y, app}) => {
 
     // update handler
     const onStep = ({ofType}) => {
-        sprite.x += vx;
-        sprite.y += vy;
+        if (!isHeld){
+            sprite.x += vx;
+            sprite.y += vy;
 
-        if (sprite.x <= RADIUS)
-            vx = Math.abs(vx) * (+1);
-        if (sprite.x >= app.screen.width - RADIUS)
-            vx = Math.abs(vx) * (-1);
+            if (sprite.x <= RADIUS)
+                vx = Math.abs(vx) * (+1);
+            if (sprite.x >= app.screen.width - RADIUS)
+                vx = Math.abs(vx) * (-1);
 
-        if (sprite.y <= RADIUS)
-            vy = Math.abs(vy) * (+1);
-        if (sprite.y >= app.screen.height - RADIUS)
-            vy = Math.abs(vy) * (-1);
+            if (sprite.y <= RADIUS)
+                vy = Math.abs(vy) * (+1);
+            if (sprite.y >= app.screen.height - RADIUS)
+                vy = Math.abs(vy) * (-1);
 
-        // bounce against the player
-        const [player] = ofType("Player");
-        const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...player.rect());
-        if (collision !== null){
-            const [cx, cy] = collision;
-            if (cx !== 0)
-                vx = Math.abs(vx) * cx;
-            if (cy !== 0)
-                vy = Math.abs(vy) * cy;
-        }
-
-        // bounce against a block
-        for (const block of ofType("Block")){
-            const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...block.rect());
+            // bounce against the player
+            const [player] = ofType("Player");
+            const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...player.rect());
             if (collision !== null){
                 const [cx, cy] = collision;
                 if (cx !== 0)
                     vx = Math.abs(vx) * cx;
                 if (cy !== 0)
                     vy = Math.abs(vy) * cy;
+                isHeld = true;
+                player.grab({
+                    onRelease: () => { isHeld = false; },
+                    syncPosition: (centerX, topY) => {
+                        sprite.x = centerX;
+                        sprite.y = topY - RADIUS;
+                    },
+                });
+            }
 
-                block.hit();
+            // bounce against a block
+            for (const block of ofType("Block")){
+                const collision = isCircleInRectangle(sprite.x, sprite.y, RADIUS, ...block.rect());
+                if (collision !== null){
+                    const [cx, cy] = collision;
+                    if (cx !== 0)
+                        vx = Math.abs(vx) * cx;
+                    if (cy !== 0)
+                        vy = Math.abs(vy) * cy;
+
+                    block.hit();
+                }
             }
         }
     };
