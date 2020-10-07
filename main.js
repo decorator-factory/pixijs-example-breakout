@@ -1,6 +1,6 @@
 import * as game from './game.js';
 
-export default () => {
+export default (container) => {
     const app = new Application({
         width: 1024,
         height: 768,
@@ -10,7 +10,7 @@ export default () => {
     });
 
 
-    document.body.appendChild(app.view);
+    container.appendChild(app.view);
 
     game.load(loader);
     loader.load(() => {
