@@ -36,7 +36,9 @@ export const Block = ({app, x, y, w, h}) => {
     app.stage.addChild(sprite);
 
     // update handler
-    const onStep = ({destroy}) => {
+    const onStep = ({destroy, state}) => {
+        sprite.y += Math.sin(Number(state.frame)/30);
+
         if (scheduledForDestruction === true){
             destroy();
             return;
