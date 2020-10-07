@@ -1,13 +1,13 @@
 import { isCircleInRectangle } from "../collision.js";
 
 // constants
-const RADIUS = 14;
+const RADIUS = 16;
 
 
 export const Ball = ({x, y, app}) => {
     // instance variables
-    let vx = 6;
-    let vy = 6;
+    let vx = 8;
+    let vy = 8;
 
     // graphics
     const sprite =

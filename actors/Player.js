@@ -1,7 +1,7 @@
 // constants
 const WIDTH = 120;
 const HEIGHT = 32;
-const SPEED = 16;
+const SPEED = 24;
 
 
 export const Player = ({x, y, app, wasd}) => {
@@ -27,7 +27,7 @@ export const Player = ({x, y, app, wasd}) => {
         const newX = targetX + dx * SPEED;
         if (WIDTH/2 < newX && newX+WIDTH/2 < app.screen.width)
             targetX = newX;
-        sprite.x = (sprite.x*4 + targetX)/5;
+        sprite.x = (sprite.x*2 + targetX)/3;
     };
 
     // destruction handler
