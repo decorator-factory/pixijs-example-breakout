@@ -6,11 +6,16 @@ const COLOR = {
 };
 
 
+const REGEN_PERIOD = 600n;
+const MAX_HP = 3;
+
+
 export const Block = ({app, x, y, w, h}) => {
     // instance variables
-    let hp = 3;
+    let hp = MAX_HP;
     let redraw = false;
     let scheduledForDestruction = false;
+    let regenCooldown = 0;
 
     // methods
     const hit = () => {
@@ -18,6 +23,7 @@ export const Block = ({app, x, y, w, h}) => {
         redraw = true;
         if (hp <= 0)
             scheduledForDestruction = true;
+        regenCooldown = REGEN_PERIOD;
     };
 
     // graphics
@@ -31,8 +37,11 @@ export const Block = ({app, x, y, w, h}) => {
 
     // update handler
     const onStep = ({destroy}) => {
-        if (scheduledForDestruction === true)
+        if (scheduledForDestruction === true){
             destroy();
+            return;
+        }
+
         if (redraw){
             sprite
                 .clear()
@@ -40,7 +49,16 @@ export const Block = ({app, x, y, w, h}) => {
                 .drawRect(-w/2, -h/2, w, h);
             redraw = false;
         }
+
+        if (regenCooldown === 0n && hp < MAX_HP){
+            hp++;
+            redraw = true;
+            regenCooldown = REGEN_PERIOD;
+        } else if (regenCooldown > 0){
+            regenCooldown -= 1n;
+        }
     };
+
 
     // destruction handler
     const onDestroy = () => {
