@@ -7,8 +7,7 @@ const SPEED = 24;
 export const Player = ({x, y, app, wasd}) => {
     // instance variables
     let targetX = x;
-    let onRelease = null;
-    let syncPosition = null;
+    let grabbed = null;
 
     // graphics
     const sprite =
@@ -30,13 +29,17 @@ export const Player = ({x, y, app, wasd}) => {
             targetX = newX;
         sprite.x = (sprite.x*2 + targetX)/3;
 
-        if (wasd.down() && onRelease !== null){
-            onRelease();
-            onRelease = null;
-            syncPosition = null;
+        if (wasd.down() && grabbed !== null){
+            if (wasd.right()){
+                grabbed.releaseRight();
+                grabbed = null;
+            }else if (wasd.left()){
+                grabbed.releaseLeft();
+                grabbed = null;
+            }
         }
-        if (syncPosition !== null)
-            syncPosition(sprite.x, sprite.y - HEIGHT/2);
+        if (grabbed !== null)
+            grabbed.syncPosition(sprite.x, sprite.y - HEIGHT/2);
     };
 
     // destruction handler
@@ -53,8 +56,8 @@ export const Player = ({x, y, app, wasd}) => {
             sprite.x - WIDTH/2, sprite.y - HEIGHT/2,
             sprite.x + WIDTH/2, sprite.y + HEIGHT/2
         ],
-        grab: ({onRelease: h1, syncPosition: h2,}) => {
-            [onRelease, syncPosition] = [h1, h2];
+        grab: ({releaseLeft, releaseRight, syncPosition}) => {
+            grabbed = {releaseLeft, releaseRight, syncPosition};
         },
     }
 };

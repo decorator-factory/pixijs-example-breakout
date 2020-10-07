@@ -46,7 +46,14 @@ export const Ball = ({x, y, app}) => {
                     vy = Math.abs(vy) * cy;
                 isHeld = true;
                 player.grab({
-                    onRelease: () => { isHeld = false; },
+                    releaseLeft: () => {
+                        isHeld = false;
+                        vx = Math.abs(vx) * (-1);
+                    },
+                    releaseRight: () => {
+                        isHeld = false;
+                        vx = Math.abs(vx) * (+1);
+                    },
                     syncPosition: (centerX, topY) => {
                         sprite.x = centerX;
                         sprite.y = topY - RADIUS;
